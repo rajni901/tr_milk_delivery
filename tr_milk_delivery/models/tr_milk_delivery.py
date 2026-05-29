@@ -12,29 +12,22 @@ class MilkDelivery(models.Model):
         ondelete='cascade', index=True)
     subscription_id = fields.Many2one(
         'tr.milk.subscription', string='Subscription',
-        required=True, ondelete='restrict')
+        ondelete='restrict')
 
+    # Stored fields — auto-filled from subscription but freely editable
     partner_id = fields.Many2one(
-        related='subscription_id.partner_id',
-        string='Customer', store=True)
+        'res.partner', string='Customer', required=True, index=True)
     product_id = fields.Many2one(
-        related='subscription_id.product_id',
-        string='Product', store=True)
+        'product.product', string='Product', required=True,
+        domain=[('sale_ok', '=', True)])
     route_id = fields.Many2one(
-        related='subscription_id.route_id',
-        string='Route', store=True)
-    driver_id = fields.Many2one(
-        related='subscription_id.driver_id',
-        string='Driver', store=True)
+        'tr.milk.route', string='Route', index=True)
+    driver_id = fields.Many2one('res.users', string='Driver')
 
     delivery_date = fields.Date(
         string='Date', required=True, default=fields.Date.today)
-    qty = fields.Float(
-        string='Qty', required=True,
-        related='subscription_id.qty', store=True, readonly=False)
-    price_unit = fields.Float(
-        string='Unit Price',
-        related='subscription_id.price_unit', store=True, readonly=False)
+    qty = fields.Float(string='Qty', required=True, default=1.0)
+    price_unit = fields.Float(string='Unit Price')
     subtotal = fields.Float(
         string='Subtotal', compute='_compute_subtotal', store=True)
 
@@ -54,6 +47,17 @@ class MilkDelivery(models.Model):
     def _compute_subtotal(self):
         for d in self:
             d.subtotal = d.qty * d.price_unit
+
+    @api.onchange('subscription_id')
+    def _onchange_subscription_id(self):
+        if self.subscription_id:
+            sub = self.subscription_id
+            self.partner_id = sub.partner_id
+            self.product_id = sub.product_id
+            self.route_id = sub.route_id
+            self.driver_id = sub.driver_id
+            self.qty = sub.qty
+            self.price_unit = sub.price_unit
 
     def action_deliver(self):
         self.write({'state': 'delivered'})
@@ -96,6 +100,10 @@ class MilkDelivery(models.Model):
                 continue
             vals = {
                 'subscription_id': sub.id,
+                'partner_id': sub.partner_id.id,
+                'product_id': sub.product_id.id,
+                'route_id': sub.route_id.id,
+                'driver_id': sub.driver_id.id,
                 'delivery_date': delivery_date,
                 'qty': sub.qty,
                 'price_unit': sub.price_unit,

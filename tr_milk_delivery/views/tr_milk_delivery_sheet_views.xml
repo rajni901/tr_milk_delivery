@@ -71,8 +71,10 @@
                               decoration-success="state=='delivered'"
                               decoration-warning="state=='skipped'"
                               decoration-danger="state=='absent'">
-                            <field name="partner_id" readonly="1"/>
-                            <field name="product_id" readonly="1"/>
+                            <field name="subscription_id" optional="hide"
+                                   options="{'no_create': True}"/>
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
                             <field name="qty"/>
                             <field name="price_unit"/>
                             <field name="subtotal" readonly="1"/>
