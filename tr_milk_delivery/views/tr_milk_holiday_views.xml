@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_milk_holiday_list" model="ir.ui.view">
+        <field name="name">tr.milk.holiday.list</field>
+        <field name="model">tr.milk.holiday</field>
+        <field name="arch" type="xml">
+            <list string="Holidays &amp; Vacations">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="scope" widget="badge"
+                       decoration-danger="scope=='global'"
+                       decoration-warning="scope=='route'"
+                       decoration-info="scope=='customer'"/>
+                <field name="route_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_holiday_form" model="ir.ui.view">
+        <field name="name">tr.milk.holiday.form</field>
+        <field name="model">tr.milk.holiday</field>
+        <field name="arch" type="xml">
+            <form string="Holiday / Vacation">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="scope"/>
+                        <field name="route_id" invisible="scope != 'route'"/>
+                        <field name="partner_id" invisible="scope != 'customer'"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                    <div class="alert alert-info mt-2">
+                        <strong>Note:</strong> Deliveries will be automatically skipped
+                        for dates covered by this holiday when generating sheets.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_milk_holiday" model="ir.actions.act_window">
+        <field name="name">Holidays &amp; Vacations</field>
+        <field name="res_model">tr.milk.holiday</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

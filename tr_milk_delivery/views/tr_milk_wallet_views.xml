@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_milk_wallet_list" model="ir.ui.view">
+        <field name="name">tr.milk.wallet.list</field>
+        <field name="model">tr.milk.wallet</field>
+        <field name="arch" type="xml">
+            <list string="Customer Wallets"
+                  decoration-danger="balance &lt; 0"
+                  decoration-warning="balance &lt; 50">
+                <field name="partner_id"/>
+                <field name="balance" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="transaction_count" string="Transactions"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_wallet_form" model="ir.ui.view">
+        <field name="name">tr.milk.wallet.form</field>
+        <field name="model">tr.milk.wallet</field>
+        <field name="arch" type="xml">
+            <form string="Customer Wallet">
+                <header>
+                    <button name="action_deposit" type="object"
+                            string="➕ Add Deposit" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="partner_id"/></h1>
+                    </div>
+                    <group>
+                        <field name="balance" widget="monetary"
+                               options="{'currency_field': 'currency_id'}"
+                               class="o_field_monetary"/>
+                        <field name="currency_id"/>
+                    </group>
+                    <field name="transaction_ids">
+                        <list create="0" decoration-success="type=='credit'"
+                              decoration-danger="type=='debit'">
+                            <field name="date"/>
+                            <field name="type" widget="badge"
+                                   decoration-success="type=='credit'"
+                                   decoration-danger="type=='debit'"/>
+                            <field name="description"/>
+                            <field name="amount" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="delivery_id" optional="show"/>
+                            <field name="currency_id" invisible="1"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_milk_wallet_deposit_form" model="ir.ui.view">
+        <field name="name">tr.milk.wallet.deposit.form</field>
+        <field name="model">tr.milk.wallet.deposit</field>
+        <field name="arch" type="xml">
+            <form string="Add Deposit">
+                <group>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="amount"/>
+                    <field name="date"/>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object"
+                            string="Confirm Deposit" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_milk_wallet" model="ir.actions.act_window">
+        <field name="name">Customer Wallets</field>
+        <field name="res_model">tr.milk.wallet</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

@@ -44,6 +44,13 @@
               action="action_milk_subscription"
               sequence="20"/>
 
+    <!-- Wallets -->
+    <menuitem id="menu_milk_wallets"
+              name="Customer Wallets"
+              parent="menu_milk_delivery_root"
+              action="action_milk_wallet"
+              sequence="30"/>
+
     <!-- Configuration -->
     <menuitem id="menu_milk_config"
               name="Configuration"
@@ -55,5 +62,11 @@
               parent="menu_milk_config"
               action="action_milk_route"
               sequence="10"/>
+
+    <menuitem id="menu_milk_holidays"
+              name="Holidays &amp; Vacations"
+              parent="menu_milk_config"
+              action="action_milk_holiday"
+              sequence="20"/>
 
 </odoo>

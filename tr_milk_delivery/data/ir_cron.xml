@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="ir_cron_generate_daily_sheets" model="ir.cron">
+        <field name="name">Milk Delivery: Auto-Generate Daily Sheets</field>
+        <field name="model_id" ref="model_tr_milk_delivery_sheet"/>
+        <field name="state">code</field>
+        <field name="code">model.auto_generate_today_sheets()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">False</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=5, minute=0, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+
+</odoo>

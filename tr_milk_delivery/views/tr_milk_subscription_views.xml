@@ -5,7 +5,9 @@
         <field name="name">tr.milk.subscription.list</field>
         <field name="model">tr.milk.subscription</field>
         <field name="arch" type="xml">
-            <list string="Subscriptions" decoration-muted="state=='cancelled'" decoration-warning="state=='paused'">
+            <list string="Subscriptions" decoration-muted="state=='cancelled'" decoration-warning="state=='paused'"
+                  default_order="route_id,sequence">
+                <field name="sequence" widget="handle"/>
                 <field name="partner_id"/>
                 <field name="product_id"/>
                 <field name="qty"/>

@@ -68,6 +68,33 @@ class MilkDeliverySheet(models.Model):
             'tr_milk_delivery.action_report_delivery_sheet'
         ).report_action(self)
 
+    @api.model
+    def auto_generate_today_sheets(self):
+        """Called by cron: generate delivery sheets for today across all active routes."""
+        today = fields.Date.today()
+        weekday = today.weekday()
+        day_map = {0: 'mon', 1: 'tue', 2: 'wed', 3: 'thu',
+                   4: 'fri', 5: 'sat', 6: 'sun'}
+        day_field = day_map[weekday]
+
+        routes = self.env['tr.milk.route'].search([
+            ('active', '=', True),
+            (day_field, '=', True),
+        ])
+        for route in routes:
+            sheet = self.search([
+                ('route_id', '=', route.id),
+                ('delivery_date', '=', today),
+            ], limit=1)
+            if not sheet:
+                sheet = self.create({
+                    'route_id': route.id,
+                    'delivery_date': today,
+                    'state': 'draft',
+                })
+            self.env['tr.milk.delivery'].create_from_subscriptions(
+                route.id, today, sheet.id)
+
     def action_mark_all_delivered(self):
         self.ensure_one()
         self.delivery_ids.filtered(

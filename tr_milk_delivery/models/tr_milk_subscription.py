@@ -5,9 +5,12 @@ class MilkSubscription(models.Model):
     _name = 'tr.milk.subscription'
     _description = 'Milk Delivery Subscription'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _order = 'partner_id, product_id'
+    _order = 'route_id, sequence, partner_id'
 
     name = fields.Char(string='Reference', compute='_compute_name', store=True)
+    sequence = fields.Integer(
+        string='Stop #', default=10,
+        help='Order in which the driver visits this customer on the route. Lower = first stop.')
     partner_id = fields.Many2one(
         'res.partner', string='Customer', required=True, tracking=True,
         domain=[('customer_rank', '>', 0)])

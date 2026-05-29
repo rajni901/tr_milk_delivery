@@ -71,6 +71,7 @@
                               decoration-success="state=='delivered'"
                               decoration-warning="state=='skipped'"
                               decoration-danger="state=='absent'">
+                            <field name="sequence" widget="handle"/>
                             <field name="subscription_id" optional="hide"
                                    options="{'no_create': True}"/>
                             <field name="partner_id"/>
@@ -121,10 +122,24 @@
         </field>
     </record>
 
+    <record id="view_milk_delivery_sheet_calendar" model="ir.ui.view">
+        <field name="name">tr.milk.delivery.sheet.calendar</field>
+        <field name="model">tr.milk.delivery.sheet</field>
+        <field name="arch" type="xml">
+            <calendar date_start="delivery_date" string="Delivery Calendar"
+                      color="route_id" quick_create="0">
+                <field name="route_id"/>
+                <field name="driver_id"/>
+                <field name="delivered_count"/>
+                <field name="delivery_count"/>
+            </calendar>
+        </field>
+    </record>
+
     <record id="action_milk_delivery_sheet" model="ir.actions.act_window">
         <field name="name">Delivery Sheets</field>
         <field name="res_model">tr.milk.delivery.sheet</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,calendar,form</field>
         <field name="search_view_id" ref="view_milk_delivery_sheet_search"/>
     </record>
 
