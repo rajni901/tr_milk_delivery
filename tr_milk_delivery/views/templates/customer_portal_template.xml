@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Customer Portal menu item -->
+    <template id="portal_milk_menu" inherit_id="portal.portal_my_home" name="Milk Delivery Portal">
+        <xpath expr="//div[@id='portal_common_category']" position="before">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/tr_milk_delivery/static/description/icon.png'"/>
+                <t t-set="title">My Milk Deliveries</t>
+                <t t-set="text">View deliveries, subscriptions and wallet balance</t>
+                <t t-set="url" t-value="'/milk/my-deliveries'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Customer Deliveries Page -->
+    <template id="customer_portal_template" name="My Milk Deliveries">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Milk Deliveries</t>
+            </t>
+
+            <div class="container mt-4">
+
+                <!-- Wallet Balance -->
+                <t t-if="wallet">
+                    <div class="alert alert-info d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <strong>💰 Wallet Balance:</strong>
+                            <span class="h5 mb-0 ms-2"
+                                  t-att-class="'text-success' if wallet.balance > 0 else 'text-danger'">
+                                <t t-esc="wallet.balance" t-options="{'widget': 'float', 'precision': 2}"/>
+                            </span>
+                        </div>
+                        <span class="text-muted small">Contact us to add balance</span>
+                    </div>
+                </t>
+
+                <!-- Active Subscriptions -->
+                <h4 class="mb-3">📦 My Subscriptions</h4>
+                <t t-if="not subscriptions">
+                    <p class="text-muted">No active subscriptions found.</p>
+                </t>
+                <t t-foreach="subscriptions" t-as="sub">
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">
+                                        <t t-esc="sub.product_id.name"/>
+                                        <span class="text-muted ms-2">
+                                            × <t t-esc="sub.qty"/>
+                                            <t t-esc="sub.product_id.uom_id.name"/>
+                                        </span>
+                                    </h6>
+                                    <small class="text-muted">
+                                        Route: <t t-esc="sub.route_id.name"/>
+                                        · Price: <t t-esc="sub.price_unit"
+                                                    t-options="{'widget': 'float', 'precision': 2}"/>
+                                        per delivery
+                                    </small>
+                                </div>
+                                <div class="text-end">
+                                    <span t-att-class="'badge ' + ('bg-success' if sub.state == 'active' else 'bg-warning text-dark' if sub.state == 'paused' else 'bg-secondary')">
+                                        <t t-esc="sub.state.capitalize()"/>
+                                    </span>
+                                    <div class="mt-2">
+                                        <t t-if="sub.state == 'active'">
+                                            <form t-att-action="'/milk/my-deliveries/subscription/' + str(sub.id) + '/pause'"
+                                                  method="POST">
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-warning">
+                                                    ⏸ Pause
+                                                </button>
+                                            </form>
+                                        </t>
+                                        <t t-if="sub.state == 'paused'">
+                                            <form t-att-action="'/milk/my-deliveries/subscription/' + str(sub.id) + '/activate'"
+                                                  method="POST">
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-success">
+                                                    ▶ Resume
+                                                </button>
+                                            </form>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-if="sub.note">
+                                <div class="mt-2 p-2 bg-light rounded small">
+                                    📍 <t t-esc="sub.note"/>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Recent Deliveries -->
+                <h4 class="mt-4 mb-3">🚚 Recent Deliveries</h4>
+                <t t-if="not deliveries">
+                    <p class="text-muted">No delivery records yet.</p>
+                </t>
+                <t t-if="deliveries">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Invoiced</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="deliveries" t-as="d">
+                                    <tr>
+                                        <td><t t-esc="d.delivery_date"/></td>
+                                        <td><t t-esc="d.product_id.name"/></td>
+                                        <td><t t-esc="d.qty"/> <t t-esc="d.product_id.uom_id.name"/></td>
+                                        <td><t t-esc="d.subtotal"
+                                               t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                        <td>
+                                            <span t-att-class="'badge ' + ('bg-success' if d.state == 'delivered' else 'bg-warning text-dark' if d.state == 'skipped' else 'bg-danger' if d.state == 'absent' else 'bg-secondary')">
+                                                <t t-esc="d.state.replace('_', ' ').capitalize()"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <t t-if="d.invoiced">
+                                                <span class="badge bg-info">Invoiced</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="badge bg-light text-muted">Pending</span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

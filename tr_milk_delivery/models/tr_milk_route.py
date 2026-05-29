@@ -1,3 +1,4 @@
+import secrets
 from odoo import api, fields, models
 
 
@@ -10,6 +11,9 @@ class MilkRoute(models.Model):
     driver_id = fields.Many2one('res.users', string='Driver', required=True)
     active = fields.Boolean(default=True)
     note = fields.Text(string='Notes')
+    access_token = fields.Char(
+        string='Driver Portal Token', copy=False, readonly=True,
+        help='Unique token for the driver portal URL. Share /milk/driver/<token> with the driver.')
 
     # Active delivery days
     mon = fields.Boolean(string='Monday', default=True)
@@ -33,6 +37,21 @@ class MilkRoute(models.Model):
             route.subscription_count = len(route.subscription_ids)
             route.active_subscription_count = len(
                 route.subscription_ids.filtered(lambda s: s.state == 'active'))
+
+    def action_generate_token(self):
+        for route in self:
+            route.access_token = secrets.token_urlsafe(24)
+
+    def action_view_driver_portal(self):
+        self.ensure_one()
+        if not self.access_token:
+            self.action_generate_token()
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'{base_url}/milk/driver/{self.access_token}',
+            'target': 'new',
+        }
 
     def action_view_subscriptions(self):
         self.ensure_one()

@@ -33,6 +33,14 @@
                                 icon="fa-users">
                             <field name="active_subscription_count" widget="statinfo" string="Active Subs"/>
                         </button>
+                        <button name="action_view_driver_portal"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-mobile">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Driver App</span>
+                            </div>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Route Name"/></h1>
@@ -51,6 +59,14 @@
                             <field name="sat" widget="boolean_toggle"/>
                             <field name="sun" widget="boolean_toggle"/>
                         </group>
+                    </group>
+                    <group string="Driver Portal">
+                        <field name="access_token" readonly="1"/>
+                        <button name="action_generate_token" type="object"
+                                string="🔑 Generate Driver Link" class="btn btn-sm btn-outline-primary"/>
+                        <button name="action_view_driver_portal" type="object"
+                                string="📱 Open Driver App" class="btn btn-sm btn-success"
+                                invisible="not access_token"/>
                     </group>
                     <group>
                         <field name="note" placeholder="Internal notes about this route..."/>

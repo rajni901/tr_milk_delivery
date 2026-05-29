@@ -1,6 +1,6 @@
 {
     'name': 'Milk Delivery Management',
-    'version': '19.0.2.0.0',
+    'version': '19.0.3.0.0',
     'category': 'Inventory/Delivery',
     'summary': 'Complete milk & dairy subscription delivery — routes, stop sequence, wallet, auto-schedule, holidays, WhatsApp.',
     'description': """
@@ -25,7 +25,7 @@ Features:
     'author': 'Technical Rajni',
     'website': 'https://www.technicalrajni.com',
     'license': 'OPL-1',
-    'depends': ['sale_management', 'account', 'stock', 'mail'],
+    'depends': ['sale_management', 'account', 'stock', 'mail', 'website', 'portal'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
@@ -41,6 +41,8 @@ Features:
         'report/delivery_sheet_report.xml',
         'report/delivery_sheet_template.xml',
         'views/menu.xml',
+        'views/templates/driver_portal_template.xml',
+        'views/templates/customer_portal_template.xml',
     ],
     'assets': {
         'web.assets_backend': [
@@ -51,6 +53,6 @@ Features:
     'installable': True,
     'application': True,
     'auto_install': False,
-    'price': 49.00,
+    'price': 79.00,
     'currency': 'USD',
 }

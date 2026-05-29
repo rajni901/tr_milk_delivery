@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Driver Portal — Mobile App -->
+    <template id="driver_portal_template" name="Driver Delivery App">
+        <t t-call="web.layout">
+            <t t-set="head_driver">
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+                <meta name="theme-color" content="#1a1a5e"/>
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                           background: #f0f2f5; margin: 0; padding: 0; }
+                    .drv-header { background: linear-gradient(135deg,#1a1a5e,#6c3fc5);
+                                  color:#fff; padding:16px; text-align:center; position:sticky;
+                                  top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+                    .drv-header h2 { margin:0; font-size:18px; font-weight:800; }
+                    .drv-header p  { margin:4px 0 0; font-size:13px; opacity:0.85; }
+                    .drv-progress { background:#fff; padding:12px 16px;
+                                    border-bottom:1px solid #e0e4f0; }
+                    .progress-bar-wrap { background:#e9ecef; border-radius:10px; height:8px; margin-top:6px; }
+                    .progress-bar-fill { background: linear-gradient(90deg,#28a745,#20c997);
+                                         height:8px; border-radius:10px; transition:width 0.3s; }
+                    .drv-card { background:#fff; margin:10px; border-radius:12px;
+                                box-shadow:0 2px 8px rgba(0,0,0,0.08); overflow:hidden; }
+                    .drv-card.delivered { border-left:5px solid #28a745; opacity:0.75; }
+                    .drv-card.skipped   { border-left:5px solid #ffc107; opacity:0.75; }
+                    .drv-card.absent    { border-left:5px solid #dc3545; opacity:0.75; }
+                    .drv-card.pending   { border-left:5px solid #6c3fc5; }
+                    .drv-card-header { padding:14px 14px 8px; display:flex;
+                                       justify-content:space-between; align-items:center; }
+                    .drv-stop { background:#6c3fc5; color:#fff; border-radius:50%;
+                                width:28px; height:28px; display:flex; align-items:center;
+                                justify-content:center; font-weight:800; font-size:12px;
+                                flex-shrink:0; margin-right:10px; }
+                    .drv-customer { font-size:16px; font-weight:700; color:#1a1a5e; }
+                    .drv-product  { font-size:13px; color:#666; margin:0 14px 8px; }
+                    .drv-note     { font-size:12px; color:#888; margin:0 14px 8px;
+                                    background:#fff8e1; padding:6px 8px; border-radius:6px; }
+                    .drv-status-badge { font-size:11px; font-weight:700; padding:3px 10px;
+                                        border-radius:20px; }
+                    .badge-delivered { background:#d4edda; color:#155724; }
+                    .badge-skipped   { background:#fff3cd; color:#856404; }
+                    .badge-absent    { background:#f8d7da; color:#721c24; }
+                    .badge-pending   { background:#e8e0ff; color:#4a2f9e; }
+                    .drv-actions { display:flex; gap:8px; padding:10px 14px 14px; }
+                    .btn-deliver { flex:2; background:#28a745; color:#fff; border:none;
+                                   border-radius:10px; padding:12px; font-size:15px;
+                                   font-weight:700; cursor:pointer; }
+                    .btn-skip    { flex:1; background:#fff3cd; color:#856404; border:1px solid #ffc107;
+                                   border-radius:10px; padding:12px; font-size:14px;
+                                   font-weight:600; cursor:pointer; }
+                    .btn-absent  { flex:1; background:#f8d7da; color:#721c24; border:1px solid #dc3545;
+                                   border-radius:10px; padding:12px; font-size:14px;
+                                   font-weight:600; cursor:pointer; }
+                    .btn-reset   { width:100%; background:#e9ecef; color:#495057; border:none;
+                                   border-radius:10px; padding:10px; font-size:13px;
+                                   cursor:pointer; margin-top:4px; }
+                    .drv-empty   { text-align:center; padding:60px 20px; color:#888; }
+                    .drv-empty h3 { font-size:22px; margin-bottom:8px; }
+                    .drv-summary { background:#fff; margin:10px; border-radius:12px;
+                                   padding:16px; text-align:center;
+                                   box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+                    .all-done { color:#28a745; font-size:40px; }
+                </style>
+            </t>
+            <t t-set="additional_head"><t t-out="head_driver"/></t>
+
+            <!-- Header -->
+            <div class="drv-header">
+                <h2>🥛 <t t-esc="route.name"/></h2>
+                <p>Driver: <strong><t t-esc="route.driver_id.name"/></strong>
+                   · <t t-esc="today"/></p>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="drv-progress">
+                <div class="d-flex justify-content-between">
+                    <span style="font-weight:600;">Progress</span>
+                    <span style="font-weight:700; color:#28a745;">
+                        <t t-esc="delivered"/>/<t t-esc="total"/> Delivered
+                    </span>
+                </div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill"
+                         t-att-style="'width:' + (str(int(delivered * 100 / total)) if total else '0') + '%'"/>
+                </div>
+            </div>
+
+            <!-- No sheet -->
+            <t t-if="not sheet">
+                <div class="drv-empty">
+                    <div style="font-size:50px;">📋</div>
+                    <h3>No Sheet Today</h3>
+                    <p>No delivery sheet has been generated for today.<br/>
+                       Ask the manager to generate today's sheet.</p>
+                </div>
+            </t>
+
+            <!-- All done -->
+            <t t-if="sheet and delivered == total and total > 0">
+                <div class="drv-summary">
+                    <div class="all-done">🎉</div>
+                    <h3 style="color:#28a745; margin:8px 0 4px;">All Done!</h3>
+                    <p style="color:#666;">All <t t-esc="total"/> deliveries completed.</p>
+                </div>
+            </t>
+
+            <!-- Delivery cards -->
+            <t t-foreach="deliveries" t-as="d">
+                <div t-att-class="'drv-card ' + d.state">
+                    <div class="drv-card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="drv-stop"><t t-esc="d.sequence"/></div>
+                            <div>
+                                <div class="drv-customer"><t t-esc="d.partner_id.name"/></div>
+                            </div>
+                        </div>
+                        <span t-att-class="'drv-status-badge badge-' + d.state">
+                            <t t-if="d.state == 'delivered'">✓ Done</t>
+                            <t t-elif="d.state == 'skipped'">Skipped</t>
+                            <t t-elif="d.state == 'absent'">Absent</t>
+                            <t t-else="">Pending</t>
+                        </span>
+                    </div>
+                    <p class="drv-product">
+                        📦 <t t-esc="d.product_id.name"/>
+                        · Qty: <strong><t t-esc="d.qty"/> <t t-esc="d.product_id.uom_id.name"/></strong>
+                    </p>
+                    <t t-if="d.subscription_id.note">
+                        <p class="drv-note">📍 <t t-esc="d.subscription_id.note"/></p>
+                    </t>
+
+                    <!-- Action buttons -->
+                    <t t-if="d.state == 'pending'">
+                        <div class="drv-actions">
+                            <form t-att-action="'/milk/driver/' + token + '/action'" method="POST">
+                                <input type="hidden" name="delivery_id" t-att-value="d.id"/>
+                                <input type="hidden" name="action" value="deliver"/>
+                                <button type="submit" class="btn-deliver">✓ Delivered</button>
+                            </form>
+                            <form t-att-action="'/milk/driver/' + token + '/action'" method="POST">
+                                <input type="hidden" name="delivery_id" t-att-value="d.id"/>
+                                <input type="hidden" name="action" value="skip"/>
+                                <button type="submit" class="btn-skip">Skip</button>
+                            </form>
+                            <form t-att-action="'/milk/driver/' + token + '/action'" method="POST">
+                                <input type="hidden" name="delivery_id" t-att-value="d.id"/>
+                                <input type="hidden" name="action" value="absent"/>
+                                <button type="submit" class="btn-absent">Absent</button>
+                            </form>
+                        </div>
+                    </t>
+                    <t t-if="d.state != 'pending'">
+                        <div style="padding:0 14px 14px;">
+                            <form t-att-action="'/milk/driver/' + token + '/action'" method="POST">
+                                <input type="hidden" name="delivery_id" t-att-value="d.id"/>
+                                <input type="hidden" name="action" value="reset"/>
+                                <button type="submit" class="btn-reset">↩ Undo</button>
+                            </form>
+                        </div>
+                    </t>
+                </div>
+            </t>
+
+            <div style="height:40px;"></div>
+        </t>
+    </template>
+
+    <!-- Invalid token page -->
+    <template id="driver_portal_invalid" name="Driver Portal Invalid">
+        <t t-call="web.layout">
+            <div style="text-align:center; padding:80px 20px; font-family:Arial,sans-serif;">
+                <div style="font-size:60px;">🔒</div>
+                <h2 style="color:#dc3545;">Invalid Link</h2>
+                <p style="color:#666;">This driver link is invalid or has been reset.<br/>
+                   Please ask the manager for a new link.</p>
+            </div>
+        </t>
+    </template>
+
+</odoo>
