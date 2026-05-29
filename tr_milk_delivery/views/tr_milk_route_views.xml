@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_milk_route_list" model="ir.ui.view">
+        <field name="name">tr.milk.route.list</field>
+        <field name="model">tr.milk.route</field>
+        <field name="arch" type="xml">
+            <list string="Delivery Routes">
+                <field name="name"/>
+                <field name="driver_id"/>
+                <field name="mon" widget="boolean_toggle"/>
+                <field name="tue" widget="boolean_toggle"/>
+                <field name="wed" widget="boolean_toggle"/>
+                <field name="thu" widget="boolean_toggle"/>
+                <field name="fri" widget="boolean_toggle"/>
+                <field name="sat" widget="boolean_toggle"/>
+                <field name="sun" widget="boolean_toggle"/>
+                <field name="active_subscription_count" string="Active Subs"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_route_form" model="ir.ui.view">
+        <field name="name">tr.milk.route.form</field>
+        <field name="model">tr.milk.route</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Route">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_subscriptions"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users">
+                            <field name="active_subscription_count" widget="statinfo" string="Active Subs"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Route Name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Route Info">
+                            <field name="driver_id"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Delivery Days">
+                            <field name="mon" widget="boolean_toggle"/>
+                            <field name="tue" widget="boolean_toggle"/>
+                            <field name="wed" widget="boolean_toggle"/>
+                            <field name="thu" widget="boolean_toggle"/>
+                            <field name="fri" widget="boolean_toggle"/>
+                            <field name="sat" widget="boolean_toggle"/>
+                            <field name="sun" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Internal notes about this route..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_milk_route" model="ir.actions.act_window">
+        <field name="name">Delivery Routes</field>
+        <field name="res_model">tr.milk.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

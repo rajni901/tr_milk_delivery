@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_generate_delivery_sheet_form" model="ir.ui.view">
+        <field name="name">tr.milk.generate.sheet.form</field>
+        <field name="model">tr.milk.generate.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Generate Delivery Sheets">
+                <group>
+                    <field name="delivery_date"/>
+                    <field name="route_ids" widget="many2many_tags"
+                           placeholder="Leave empty for all active routes"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object"
+                            string="Generate Sheets" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_delivery_sheet" model="ir.actions.act_window">
+        <field name="name">Generate Delivery Sheets</field>
+        <field name="res_model">tr.milk.generate.sheet</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

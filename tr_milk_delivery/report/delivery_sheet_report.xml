@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_delivery_sheet" model="ir.actions.report">
+        <field name="name">Delivery Sheet</field>
+        <field name="model">tr.milk.delivery.sheet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tr_milk_delivery.report_delivery_sheet</field>
+        <field name="report_file">tr_milk_delivery.report_delivery_sheet</field>
+        <field name="print_report_name">'Delivery Sheet - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_tr_milk_delivery_sheet"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

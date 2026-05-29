@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_milk_route_user,tr.milk.route user,model_tr_milk_route,base.group_user,1,0,0,0
+access_milk_route_manager,tr.milk.route manager,model_tr_milk_route,base.group_system,1,1,1,1
+access_milk_subscription_user,tr.milk.subscription user,model_tr_milk_subscription,base.group_user,1,1,1,0
+access_milk_subscription_manager,tr.milk.subscription manager,model_tr_milk_subscription,base.group_system,1,1,1,1
+access_milk_delivery_user,tr.milk.delivery user,model_tr_milk_delivery,base.group_user,1,1,1,0
+access_milk_delivery_manager,tr.milk.delivery manager,model_tr_milk_delivery,base.group_system,1,1,1,1
+access_milk_delivery_sheet_user,tr.milk.delivery.sheet user,model_tr_milk_delivery_sheet,base.group_user,1,1,1,0
+access_milk_delivery_sheet_manager,tr.milk.delivery.sheet manager,model_tr_milk_delivery_sheet,base.group_system,1,1,1,1
+access_milk_generate_sheet,tr.milk.generate.sheet,model_tr_milk_generate_sheet,base.group_user,1,1,1,1
+access_milk_create_invoices,tr.milk.create.invoices,model_tr_milk_create_invoices,base.group_user,1,1,1,1

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_create_milk_invoices_form" model="ir.ui.view">
+        <field name="name">tr.milk.create.invoices.form</field>
+        <field name="model">tr.milk.create.invoices</field>
+        <field name="arch" type="xml">
+            <form string="Create Invoices from Deliveries">
+                <group string="Period">
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="invoice_date"/>
+                </group>
+                <group string="Filters (optional)">
+                    <field name="partner_ids" widget="many2many_tags"
+                           placeholder="All customers"/>
+                    <field name="route_ids" widget="many2many_tags"
+                           placeholder="All routes"/>
+                </group>
+                <div class="alert alert-info">
+                    <strong>Note:</strong> Only <em>Delivered</em> and <em>uninvoiced</em>
+                    deliveries in the selected period will be invoiced.
+                    One invoice is created per customer.
+                </div>
+                <footer>
+                    <button name="action_create_invoices" type="object"
+                            string="Create Invoices" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_milk_invoices" model="ir.actions.act_window">
+        <field name="name">Create Invoices</field>
+        <field name="res_model">tr.milk.create.invoices</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

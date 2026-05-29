@@ -1,0 +1,3 @@
+.o_milk_delivery_delivered { background-color: #d4edda !important; }
+.o_milk_delivery_skipped   { background-color: #fff3cd !important; }
+.o_milk_delivery_absent    { background-color: #f8d7da !important; }

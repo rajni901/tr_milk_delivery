@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_milk_delivery_list" model="ir.ui.view">
+        <field name="name">tr.milk.delivery.list</field>
+        <field name="model">tr.milk.delivery</field>
+        <field name="arch" type="xml">
+            <list string="Deliveries"
+                  decoration-success="state=='delivered'"
+                  decoration-warning="state=='skipped'"
+                  decoration-danger="state=='absent'">
+                <field name="delivery_date"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="price_unit"/>
+                <field name="subtotal" sum="Total"/>
+                <field name="route_id"/>
+                <field name="driver_id" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='delivered'"
+                       decoration-warning="state=='skipped'"
+                       decoration-danger="state=='absent'"
+                       decoration-muted="state=='pending'"/>
+                <field name="invoiced" widget="boolean_toggle" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_delivery_search" model="ir.ui.view">
+        <field name="name">tr.milk.delivery.search</field>
+        <field name="model">tr.milk.delivery</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="route_id"/>
+                <filter name="today" string="Today"
+                        domain="[('delivery_date','=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="delivered" string="Delivered" domain="[('state','=','delivered')]"/>
+                <filter name="pending" string="Pending" domain="[('state','=','pending')]"/>
+                <filter name="not_invoiced" string="Not Invoiced"
+                        domain="[('invoiced','=',False),('state','=','delivered')]"/>
+                <group>
+                    <filter name="group_date" string="Date" context="{'group_by': 'delivery_date'}"/>
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_route" string="Route" context="{'group_by': 'route_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_milk_delivery" model="ir.actions.act_window">
+        <field name="name">All Deliveries</field>
+        <field name="res_model">tr.milk.delivery</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_milk_delivery_search"/>
+    </record>
+
+</odoo>

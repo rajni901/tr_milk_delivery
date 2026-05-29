@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_milk_subscription_list" model="ir.ui.view">
+        <field name="name">tr.milk.subscription.list</field>
+        <field name="model">tr.milk.subscription</field>
+        <field name="arch" type="xml">
+            <list string="Subscriptions" decoration-muted="state=='cancelled'" decoration-warning="state=='paused'">
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="price_unit"/>
+                <field name="route_id"/>
+                <field name="driver_id"/>
+                <field name="start_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='active'"
+                       decoration-warning="state=='paused'"
+                       decoration-danger="state=='cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_milk_subscription_form" model="ir.ui.view">
+        <field name="name">tr.milk.subscription.form</field>
+        <field name="model">tr.milk.subscription</field>
+        <field name="arch" type="xml">
+            <form string="Subscription">
+                <header>
+                    <button name="action_activate" string="Activate"
+                            type="object" class="btn-success"
+                            invisible="state == 'active'"/>
+                    <button name="action_pause" string="Pause"
+                            type="object"
+                            invisible="state != 'active'"/>
+                    <button name="action_cancel" string="Cancel"
+                            type="object" class="btn-danger"
+                            invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="active,paused,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_deliveries"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-truck">
+                            <field name="delivery_count" widget="statinfo" string="Deliveries"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Customer &amp; Product">
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="product_uom_id" readonly="1"/>
+                            <field name="price_unit"/>
+                        </group>
+                        <group string="Route &amp; Schedule">
+                            <field name="route_id"/>
+                            <field name="driver_id" readonly="1"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <group string="Delivery Days">
+                        <field name="use_custom_days" widget="boolean_toggle"/>
+                        <group invisible="not use_custom_days" col="7">
+                            <field name="mon" widget="boolean_toggle"/>
+                            <field name="tue" widget="boolean_toggle"/>
+                            <field name="wed" widget="boolean_toggle"/>
+                            <field name="thu" widget="boolean_toggle"/>
+                            <field name="fri" widget="boolean_toggle"/>
+                            <field name="sat" widget="boolean_toggle"/>
+                            <field name="sun" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Delivery note (e.g. leave at gate)..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_milk_subscription_kanban" model="ir.ui.view">
+        <field name="name">tr.milk.subscription.kanban</field>
+        <field name="model">tr.milk.subscription</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="route_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <strong><field name="partner_id"/></strong>
+                            <field name="state" widget="badge"
+                                   decoration-success="state=='active'"
+                                   decoration-warning="state=='paused'"
+                                   decoration-danger="state=='cancelled'"/>
+                        </div>
+                        <div class="text-muted">
+                            <field name="product_id"/> × <field name="qty"/>
+                        </div>
+                        <div class="text-muted small">
+                            Route: <field name="route_id"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_milk_subscription_search" model="ir.ui.view">
+        <field name="name">tr.milk.subscription.search</field>
+        <field name="model">tr.milk.subscription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="route_id"/>
+                <filter name="active" string="Active" domain="[('state','=','active')]"/>
+                <filter name="paused" string="Paused" domain="[('state','=','paused')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <group>
+                    <filter name="group_route" string="Route" context="{'group_by': 'route_id'}"/>
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_milk_subscription" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">tr.milk.subscription</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_milk_subscription_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+</odoo>

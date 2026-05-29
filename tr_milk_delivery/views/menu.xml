@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root menu -->
+    <menuitem id="menu_milk_delivery_root"
+              name="Milk Delivery"
+              sequence="85"
+              web_icon="tr_milk_delivery,static/description/icon.png"/>
+
+    <!-- Operations -->
+    <menuitem id="menu_milk_operations"
+              name="Operations"
+              parent="menu_milk_delivery_root"
+              sequence="10"/>
+
+    <menuitem id="menu_milk_delivery_sheet"
+              name="Delivery Sheets"
+              parent="menu_milk_operations"
+              action="action_milk_delivery_sheet"
+              sequence="10"/>
+
+    <menuitem id="menu_milk_generate_sheet"
+              name="Generate Today's Sheets"
+              parent="menu_milk_operations"
+              action="action_generate_delivery_sheet"
+              sequence="20"/>
+
+    <menuitem id="menu_milk_all_deliveries"
+              name="All Deliveries"
+              parent="menu_milk_operations"
+              action="action_milk_delivery"
+              sequence="30"/>
+
+    <menuitem id="menu_milk_create_invoices"
+              name="Create Invoices"
+              parent="menu_milk_operations"
+              action="action_create_milk_invoices"
+              sequence="40"/>
+
+    <!-- Subscriptions -->
+    <menuitem id="menu_milk_subscriptions"
+              name="Subscriptions"
+              parent="menu_milk_delivery_root"
+              action="action_milk_subscription"
+              sequence="20"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_milk_config"
+              name="Configuration"
+              parent="menu_milk_delivery_root"
+              sequence="90"/>
+
+    <menuitem id="menu_milk_routes"
+              name="Delivery Routes"
+              parent="menu_milk_config"
+              action="action_milk_route"
+              sequence="10"/>
+
+</odoo>

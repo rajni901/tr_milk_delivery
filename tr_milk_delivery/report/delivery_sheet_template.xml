@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_delivery_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="sheet">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Header -->
+                        <div class="row mb-4">
+                            <div class="col-8">
+                                <h2 style="color:#1a1a5e; font-weight:900;">
+                                    🥛 Milk Delivery Sheet
+                                </h2>
+                                <h4><t t-esc="sheet.name"/></h4>
+                            </div>
+                            <div class="col-4 text-end">
+                                <table class="table table-sm table-borderless" style="font-size:13px;">
+                                    <tr>
+                                        <td><strong>Date:</strong></td>
+                                        <td><t t-esc="sheet.delivery_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Route:</strong></td>
+                                        <td><t t-esc="sheet.route_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Driver:</strong></td>
+                                        <td><t t-esc="sheet.driver_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total:</strong></td>
+                                        <td><t t-esc="sheet.delivery_count"/> deliveries</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Table -->
+                        <table class="table table-bordered table-sm" style="font-size:12px;">
+                            <thead style="background:#1a1a5e; color:white;">
+                                <tr>
+                                    <th style="width:5%;">#</th>
+                                    <th style="width:30%;">Customer</th>
+                                    <th style="width:25%;">Product</th>
+                                    <th style="width:10%; text-align:center;">Qty</th>
+                                    <th style="width:10%; text-align:right;">Price</th>
+                                    <th style="width:10%; text-align:right;">Subtotal</th>
+                                    <th style="width:10%; text-align:center;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sheet.delivery_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line_index + 1"/></td>
+                                        <td>
+                                            <strong><t t-esc="line.partner_id.name"/></strong>
+                                            <t t-if="line.subscription_id.note">
+                                                <br/><small class="text-muted">
+                                                    <t t-esc="line.subscription_id.note"/>
+                                                </small>
+                                            </t>
+                                        </td>
+                                        <td><t t-esc="line.product_id.name"/></td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="line.qty"/>
+                                            <t t-esc="line.product_id.uom_id.name"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-esc="line.price_unit"
+                                               t-options="{'widget': 'monetary', 'display_currency': sheet.route_id.driver_id.company_id.currency_id}"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <t t-esc="line.subtotal"
+                                               t-options="{'widget': 'monetary', 'display_currency': sheet.route_id.driver_id.company_id.currency_id}"/>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-if="line.state == 'delivered'">
+                                                <span style="color:green; font-weight:bold;">✓</span>
+                                            </t>
+                                            <t t-elif="line.state == 'skipped'">
+                                                <span style="color:orange;">Skip</span>
+                                            </t>
+                                            <t t-elif="line.state == 'absent'">
+                                                <span style="color:red;">Absent</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="border:1px solid #ccc; display:inline-block; width:20px; height:16px;"> </span>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background:#f0f0f0; font-weight:bold;">
+                                    <td colspan="5" style="text-align:right;">Total</td>
+                                    <td style="text-align:right;">
+                                        <t t-esc="sum(sheet.delivery_ids.mapped('subtotal'))"
+                                           t-options="{'widget': 'monetary', 'display_currency': sheet.route_id.driver_id.company_id.currency_id}"/>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- Driver Signature -->
+                        <div class="row mt-5">
+                            <div class="col-4">
+                                <p><strong>Driver Signature:</strong></p>
+                                <div style="border-top:1px solid #000; margin-top:40px; padding-top:4px;">
+                                    <t t-esc="sheet.driver_id.name"/>
+                                </div>
+                            </div>
+                            <div class="col-4 offset-4 text-end">
+                                <p style="font-size:10px; color:#999;">
+                                    Generated by Milk Delivery — Technical Rajni
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
