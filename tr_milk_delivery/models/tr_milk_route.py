@@ -74,25 +74,10 @@ class MilkRoute(models.Model):
             f"Tap ✓ Delivered after each stop.\n\n"
             f"— {self.env.company.name}"
         )
-        # Try WhatsApp service if available
-        if 'tr.whatsapp.service' in self.env:
-            svc = self.env['tr.whatsapp.service']
-            try:
-                svc._send_whatsapp(phone, msg)
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': 'Sent!',
-                        'message': f'Driver link sent to {self.driver_id.name} via WhatsApp.',
-                        'type': 'success',
-                    },
-                }
-            except Exception:
-                pass
-        # Fallback: open WhatsApp Web
+        # Open WhatsApp Web with pre-filled message (no external module needed)
         import urllib.parse
-        wa_url = f'https://wa.me/{phone.replace(" ", "").replace("+", "")}?text={urllib.parse.quote(msg)}'
+        clean_phone = phone.replace(' ', '').replace('+', '').replace('-', '')
+        wa_url = f'https://wa.me/{clean_phone}?text={urllib.parse.quote(msg)}'
         return {'type': 'ir.actions.act_url', 'url': wa_url, 'target': 'new'}
 
     def action_get_qr_code(self):

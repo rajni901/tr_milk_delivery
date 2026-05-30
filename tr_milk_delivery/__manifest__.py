@@ -20,7 +20,7 @@ Features:
 - Delivery Calendar View — visual overview of all routes
 - Auto-Invoice from confirmed deliveries (weekly/monthly)
 - Printable PDF delivery sheet per route for drivers
-- WhatsApp notification to customer on delivery (requires tr_whatsapp_notifications)
+- WhatsApp Web link to send driver portal link to driver phone (no extra module needed)
     """,
     'author': 'Technical Rajni',
     'website': 'https://www.technicalrajni.com',

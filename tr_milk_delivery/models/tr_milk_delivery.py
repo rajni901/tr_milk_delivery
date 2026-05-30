@@ -95,29 +95,13 @@ class MilkDelivery(models.Model):
                              self.partner_id.name, self.subtotal)
 
     def _send_whatsapp_notification(self):
-        """Send WhatsApp message to customer on delivery. Requires tr_whatsapp_notifications."""
+        """Log delivery notification — override in downstream modules to send via WhatsApp/SMS."""
         self.ensure_one()
-        if 'tr.whatsapp.service' not in self.env:
-            return
-        svc = self.env['tr.whatsapp.service']
-        if not svc._is_enabled('tr_whatsapp.notify_invoice'):
-            return
-        phone = self.partner_id.phone
-        if not phone:
-            return
-        msg = (
-            f"Hello {self.partner_id.name},\n\n"
-            f"Your milk delivery has been completed. 🥛\n"
-            f"Product: *{self.product_id.name}*\n"
-            f"Qty: *{self.qty} {self.product_id.uom_id.name}*\n"
-            f"Date: *{self.delivery_date}*\n"
-            f"Amount: *{self.subtotal:.2f}*\n\n"
-            f"Thank you!\n— {self.env.company.name}"
+        _logger.info(
+            'Delivery confirmed: partner=%s product=%s qty=%s date=%s amount=%s',
+            self.partner_id.name, self.product_id.name,
+            self.qty, self.delivery_date, self.subtotal,
         )
-        try:
-            svc._send_whatsapp(phone, msg)
-        except Exception as e:
-            _logger.warning('WhatsApp delivery notification failed: %s', e)
 
     @api.model
     def create_from_subscriptions(self, route_id, delivery_date, sheet_id=None):
