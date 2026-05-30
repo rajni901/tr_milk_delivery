@@ -1,586 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;color:#1a1a2e;background:#fff;line-height:1.6}
+<head><meta charset="UTF-8"/></head>
+<body style="font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:0;color:#1a1a2e;background:#fff">
 
-/* ── HERO ── */
-.hero{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-      padding:60px 40px;text-align:center;position:relative;overflow:hidden}
-.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;
-           background:radial-gradient(circle,rgba(108,63,197,.4),transparent 70%);
-           top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
-.hero-tag{display:inline-block;background:rgba(108,63,197,.3);border:1px solid rgba(108,63,197,.6);
-          color:#c4b5fd;font-size:11px;letter-spacing:3px;text-transform:uppercase;
-          padding:5px 18px;border-radius:20px;margin-bottom:20px}
-.hero h1{font-size:42px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:14px}
-.hero h1 span{background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;
-              -webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:16px;color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 30px}
-.hero-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-      color:rgba(255,255,255,.85);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600}
+<!-- BANNER -->
+<img src="banner.png" style="width:100%;display:block;"/>
 
-/* ── STATS BAR ── */
-.stats{display:flex;justify-content:center;gap:0;background:#6c3fc5;flex-wrap:wrap}
-.stat{flex:1;min-width:150px;text-align:center;padding:20px;border-right:1px solid rgba(255,255,255,.15)}
-.stat:last-child{border-right:none}
-.stat-num{font-size:28px;font-weight:900;color:#fff}
-.stat-lbl{font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
-
-/* ── SECTIONS ── */
-.section{padding:64px 40px;max-width:1000px;margin:0 auto}
-.section-dark{background:linear-gradient(135deg,#0f0c29,#1a1a3e);padding:64px 40px}
-.section-dark .inner{max-width:1000px;margin:0 auto}
-.section-grey{background:#f8f7ff;padding:64px 40px}
-.section-grey .inner{max-width:1000px;margin:0 auto}
-.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7c3aed;
-          font-weight:700;margin-bottom:10px}
-.eyebrow-white{color:#a78bfa}
-h2{font-size:32px;font-weight:900;color:#0f0c29;margin-bottom:8px;line-height:1.2}
-h2.white{color:#fff}
-.lead{font-size:15px;color:#666;margin-bottom:40px;max-width:600px}
-.lead.white{color:rgba(255,255,255,.65)}
-
-/* ── FEATURE CARDS ── */
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.feat-card{background:#fff;border-radius:16px;padding:24px;
-           box-shadow:0 4px 24px rgba(108,63,197,.08);
-           border:1px solid rgba(108,63,197,.1);
-           transition:transform .2s,box-shadow .2s}
-.feat-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(108,63,197,.18)}
-.feat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;
-           justify-content:center;font-size:22px;margin-bottom:14px}
-.ic-purple{background:linear-gradient(135deg,#7c3aed,#6c3fc5)}
-.ic-blue{background:linear-gradient(135deg,#2563eb,#3b82f6)}
-.ic-green{background:linear-gradient(135deg,#059669,#10b981)}
-.ic-orange{background:linear-gradient(135deg,#d97706,#f59e0b)}
-.ic-pink{background:linear-gradient(135deg,#db2777,#ec4899)}
-.ic-teal{background:linear-gradient(135deg,#0d9488,#14b8a6)}
-.feat-card h3{font-size:15px;font-weight:800;color:#0f0c29;margin-bottom:6px}
-.feat-card p{font-size:13px;color:#666;line-height:1.5}
-
-/* ── HOW IT WORKS ── */
-.flow-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
-.flow-grid::before{content:'';position:absolute;top:36px;left:10%;right:10%;
-                   height:2px;background:linear-gradient(90deg,#7c3aed,#3b82f6);
-                   z-index:0}
-.flow-item{text-align:center;position:relative;z-index:1;padding:0 10px}
-.flow-num{width:72px;height:72px;border-radius:50%;
-          background:linear-gradient(135deg,#7c3aed,#3b82f6);
-          color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;
-          margin:0 auto 14px;font-weight:900;box-shadow:0 8px 24px rgba(124,58,237,.4)}
-.flow-item h4{font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px}
-.flow-item p{font-size:11px;color:#888;line-height:1.4}
-
-/* ── PHONE MOCKUP ── */
-.mockup-section{display:flex;align-items:center;gap:60px;flex-wrap:wrap}
-.phone-outer{flex-shrink:0;perspective:1000px}
-.phone{width:260px;background:#111;border-radius:36px;padding:12px;
-       box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.1);
-       transform:rotateY(-8deg) rotateX(4deg)}
-.phone-screen{background:#fff;border-radius:24px;overflow:hidden}
-.ph-bar{background:linear-gradient(135deg,#0f0c29,#6c3fc5);padding:16px;text-align:center}
-.ph-bar .ph-t{color:#fff;font-size:14px;font-weight:800}
-.ph-bar .ph-s{color:rgba(255,255,255,.7);font-size:10px;margin-top:2px}
-.ph-area{background:#f0edff;font-size:9px;color:rgba(255,255,255,.8);
-         background:rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;
-         display:inline-block;margin-top:6px;color:rgba(255,255,255,.8)}
-.ph-prog{background:#f8f7ff;padding:10px 14px}
-.ph-prog-top{display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:#0f0c29;margin-bottom:5px}
-.ph-prog-top span:last-child{color:#059669}
-.ph-bar-bg{background:#e0e0e0;border-radius:10px;height:6px}
-.ph-bar-fill{background:linear-gradient(90deg,#059669,#10b981);height:6px;border-radius:10px}
-.ph-card{margin:8px;background:#fff;border-radius:12px;
-         box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
-.ph-card-border-p{border-left:4px solid #7c3aed}
-.ph-card-border-g{border-left:4px solid #059669}
-.ph-card-top{padding:10px 12px 4px;display:flex;gap:8px;align-items:flex-start}
-.ph-stop{width:28px;height:28px;background:linear-gradient(135deg,#0f0c29,#6c3fc5);
-         color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
-         font-size:10px;font-weight:900;flex-shrink:0}
-.ph-name{font-size:11px;font-weight:800;color:#0f0c29}
-.ph-addr{font-size:9px;color:#888;margin-top:1px}
-.ph-prod{font-size:9px;color:#555;padding:2px 12px 6px 48px}
-.ph-btns{display:flex;gap:5px;padding:0 10px 10px}
-.phb-d{flex:2;background:#059669;color:#fff;border:none;border-radius:8px;
-       padding:7px;font-size:9px;font-weight:700;text-align:center}
-.phb-s{flex:1;background:#fff3cd;color:#856404;border:1px solid #ffc107;
-       border-radius:8px;padding:7px;font-size:9px;font-weight:700;text-align:center}
-.ph-done{background:#d1fae5;color:#065f46;font-size:9px;font-weight:700;
-         text-align:center;padding:5px;border-radius:8px;margin:0 10px 10px}
-.mockup-points{flex:1;min-width:280px}
-.mp-item{display:flex;gap:16px;margin-bottom:24px;align-items:flex-start}
-.mp-dot{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;
-        align-items:center;justify-content:center;font-size:18px;
-        background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(59,130,246,.15));
-        border:1px solid rgba(124,58,237,.2)}
-.mp-item h4{font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
-.mp-item p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5}
-
-/* ── SCREENSHOTS ── */
-.ss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:24px}
-.ss-card{background:#fff;border-radius:16px;overflow:hidden;
-         box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #f0edff}
-.ss-card img{width:100%;display:block;border-bottom:1px solid #f0edff}
-.ss-caption{padding:12px 16px;display:flex;align-items:center;gap:10px}
-.ss-caption .ss-icon{width:32px;height:32px;border-radius:8px;
-                     background:linear-gradient(135deg,#7c3aed,#6c3fc5);
-                     display:flex;align-items:center;justify-content:center;
-                     font-size:14px;flex-shrink:0}
-.ss-caption h4{font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:2px}
-.ss-caption p{font-size:11px;color:#888}
-
-/* ── STEPS ── */
-.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-.step-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-           border-radius:16px;padding:24px;position:relative;overflow:hidden}
-.step-card::before{content:attr(data-step);position:absolute;top:-10px;right:16px;
-                   font-size:80px;font-weight:900;color:rgba(255,255,255,.04);line-height:1}
-.step-num{width:36px;height:36px;border-radius:10px;
-          background:linear-gradient(135deg,#7c3aed,#3b82f6);
-          color:#fff;display:flex;align-items:center;justify-content:center;
-          font-weight:900;font-size:14px;margin-bottom:14px}
-.step-card h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:8px}
-.step-card p,.step-card li{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6}
-.step-card ul{padding-left:16px;margin-top:6px}
-
-/* ── WHAT'S INCLUDED TABLE ── */
-.inc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-.inc-item{display:flex;align-items:center;gap:12px;background:#fff;
-          border-radius:10px;padding:14px;border:1px solid #f0edff;
-          box-shadow:0 2px 8px rgba(108,63,197,.05)}
-.inc-check{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#059669,#10b981);
-           display:flex;align-items:center;justify-content:center;
-           color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-.inc-item span{font-size:13px;font-weight:600;color:#0f0c29}
-
-/* ── PRICING ── */
-.price-wrap{max-width:480px;margin:0 auto;
-            background:linear-gradient(135deg,#0f0c29,#1a1a3e);
-            border-radius:24px;padding:40px;text-align:center;
-            border:1px solid rgba(108,63,197,.4);
-            box-shadow:0 20px 60px rgba(108,63,197,.3)}
-.price-tag{font-size:72px;font-weight:900;color:#fff;line-height:1}
-.price-tag sup{font-size:30px;vertical-align:top;margin-top:16px;display:inline-block;color:#a78bfa}
-.price-period{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:2px;
-              text-transform:uppercase;margin-top:6px}
-.price-list{list-style:none;margin:28px 0;text-align:left}
-.price-list li{padding:8px 0;font-size:13px;color:rgba(255,255,255,.8);
-               border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
-.price-list li::before{content:'✓';width:20px;height:20px;background:linear-gradient(135deg,#059669,#10b981);
-                        border-radius:50%;display:flex;align-items:center;justify-content:center;
-                        font-size:10px;font-weight:900;flex-shrink:0;color:#fff}
-.price-btn{display:block;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;
-           padding:14px 32px;border-radius:12px;font-weight:800;font-size:15px;
-           text-decoration:none;margin-top:24px}
-.price-note{font-size:11px;color:rgba(255,255,255,.4);margin-top:12px}
-
-/* ── CTA ── */
-.cta{background:linear-gradient(135deg,#0f0c29,#302b63);padding:80px 40px;text-align:center}
-.cta h2{font-size:36px;font-weight:900;color:#fff;margin-bottom:12px;border:none}
-.cta p{color:rgba(255,255,255,.65);font-size:15px;max-width:500px;margin:0 auto 32px}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#7c3aed,#3b82f6);
-         color:#fff;padding:16px 40px;border-radius:14px;font-weight:800;
-         font-size:16px;text-decoration:none;
-         box-shadow:0 8px 30px rgba(124,58,237,.5)}
-.cta-sub{margin-top:20px;font-size:12px;color:rgba(255,255,255,.4)}
-.cta-sub a{color:#a78bfa;text-decoration:none}
-
-@media(max-width:700px){
-  .hero h1{font-size:28px}
-  .section,.section-dark,.section-grey{padding:48px 20px}
-  .flow-grid{grid-template-columns:1fr 1fr;gap:20px}
-  .flow-grid::before{display:none}
-  .phone{transform:none}
-  .mockup-section{flex-direction:column;align-items:center}
-  .ss-grid{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- ════ HERO ════ -->
-<div class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-tag">Odoo 19 · Community &amp; Enterprise</div>
-  <h1>🥛 Milk Delivery<br/><span>Management</span></h1>
-  <p class="hero-sub">The only Odoo module built specifically for milk rounds and dairy subscription delivery. Routes, driver app, wallet, auto-invoicing — all in one place.</p>
-  <div class="hero-pills">
-    <span class="pill">📱 Mobile Driver App</span>
-    <span class="pill">🗺️ Delivery Routes</span>
-    <span class="pill">💰 Customer Wallet</span>
-    <span class="pill">🧾 Auto-Invoice</span>
-    <span class="pill">📷 QR Code Setup</span>
-    <span class="pill">🎄 Holiday Skip</span>
+<!-- HERO TEXT -->
+<div style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);padding:40px;text-align:center">
+  <p style="color:#a78bfa;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px">by Technical Rajni · Odoo 19 · Community &amp; Enterprise</p>
+  <h1 style="color:#fff;font-size:36px;font-weight:900;margin-bottom:12px">🥛 Milk Delivery Management</h1>
+  <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:640px;margin:0 auto 24px">The only Odoo module built specifically for milk rounds and dairy subscription delivery. Routes, driver app, wallet, auto-invoicing — all in one place.</p>
+  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">📱 Mobile Driver App</span>
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">🗺️ Delivery Routes</span>
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">💰 Customer Wallet</span>
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">🧾 Auto-Invoice</span>
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">📷 QR Code</span>
+    <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600">🎄 Holiday Skip</span>
   </div>
 </div>
 
-<!-- ════ STATS ════ -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">$0</div><div class="stat-lbl">Competitors on App Store</div></div>
-  <div class="stat"><div class="stat-num">$24.9B</div><div class="stat-lbl">Global Market Size</div></div>
-  <div class="stat"><div class="stat-num">170K+</div><div class="stat-lbl">Odoo Companies</div></div>
-  <div class="stat"><div class="stat-num">11%</div><div class="stat-lbl">Market CAGR</div></div>
-</div>
-
-<!-- ════ FEATURES ════ -->
-<div class="section">
-  <div class="eyebrow">Everything You Need</div>
-  <h2>Built for Dairy Delivery Businesses</h2>
-  <p class="lead">From corner dairies to large milk rounds — manage every subscription, route and driver from one clean Odoo interface.</p>
-
-  <div class="feat-grid">
-    <div class="feat-card">
-      <div class="feat-icon ic-purple">🗺️</div>
-      <h3>Delivery Routes</h3>
-      <p>Create named routes with a driver, active delivery days and a coverage area description so drivers know their territory.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-blue">📋</div>
-      <h3>Customer Subscriptions</h3>
-      <p>Daily, alternate days, weekly or custom schedule per customer. Pause, resume or cancel with one click. Separate delivery address supported.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-green">📱</div>
-      <h3>Mobile Driver App</h3>
-      <p>No install, no login. Driver scans a QR code once and bookmarks the URL. Sees all stops in order — taps ✓ Delivered at each door.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-orange">📄</div>
-      <h3>Daily Delivery Sheets</h3>
-      <p>Auto-generated from active subscriptions each morning. Confirm, print PDF, or let drivers mark status directly on their phone.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-pink">💰</div>
-      <h3>Customer Wallet</h3>
-      <p>Prepaid balance per customer. Auto-deducts the delivery cost when the driver marks done. Full transaction history visible.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-teal">🧾</div>
-      <h3>Auto-Invoice</h3>
-      <p>At month end, generate one invoice per customer from all delivered lines. Weekly or monthly billing in seconds — no manual entry.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-purple">📷</div>
-      <h3>QR Code for Driver</h3>
-      <p>Generate a QR code from the route settings. Driver scans once, bookmarks the page, uses it every day. No link sharing needed.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-blue">🎄</div>
-      <h3>Holiday Management</h3>
-      <p>Define public holidays or customer vacations. Deliveries are automatically skipped during sheet generation — zero manual work.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-green">🔢</div>
-      <h3>Stop Sequencing</h3>
-      <p>Drag to reorder customer stops on each route. The driver app sorts by stop number — shortest path, zero confusion for new drivers.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-orange">⏱️</div>
-      <h3>Auto-Schedule Cron</h3>
-      <p>Enable a cron job to auto-generate all delivery sheets every morning at 5am. No manager action required each day.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-pink">🗓️</div>
-      <h3>Calendar View</h3>
-      <p>All delivery sheets on a calendar, color-coded by route. Spot coverage gaps and busy days at a glance.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon ic-teal">👤</div>
-      <h3>Customer Portal</h3>
-      <p>Customers log into My Account → see delivery history, wallet balance, and pause or resume their own subscription.</p>
-    </div>
+<!-- STATS -->
+<div style="display:flex;background:#6c3fc5;flex-wrap:wrap">
+  <div style="flex:1;min-width:140px;text-align:center;padding:20px;border-right:1px solid rgba(255,255,255,.15)">
+    <div style="font-size:26px;font-weight:900;color:#fff">ZERO</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:1px;margin-top:3px">Competitors on App Store</div>
+  </div>
+  <div style="flex:1;min-width:140px;text-align:center;padding:20px;border-right:1px solid rgba(255,255,255,.15)">
+    <div style="font-size:26px;font-weight:900;color:#fff">$24.9B</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:1px;margin-top:3px">Global Market Size</div>
+  </div>
+  <div style="flex:1;min-width:140px;text-align:center;padding:20px;border-right:1px solid rgba(255,255,255,.15)">
+    <div style="font-size:26px;font-weight:900;color:#fff">170K+</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:1px;margin-top:3px">Odoo Companies</div>
+  </div>
+  <div style="flex:1;min-width:140px;text-align:center;padding:20px">
+    <div style="font-size:26px;font-weight:900;color:#fff">11%</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:1px;margin-top:3px">Market CAGR</div>
   </div>
 </div>
 
-<!-- ════ HOW IT WORKS ════ -->
-<div class="section-grey">
-<div class="inner">
-  <div class="eyebrow">Simple Process</div>
-  <h2>How It Works — Full Flow</h2>
-  <p class="lead">From setup to invoice in 5 steps.</p>
-  <div class="flow-grid">
-    <div class="flow-item">
-      <div class="flow-num">🗺️</div>
-      <h4>Create Route</h4>
-      <p>Name, driver, coverage area &amp; active days</p>
+<!-- FEATURES -->
+<div style="padding:56px 40px;max-width:960px;margin:0 auto">
+  <p style="color:#7c3aed;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Everything You Need</p>
+  <h2 style="font-size:30px;font-weight:900;color:#0f0c29;margin-bottom:8px">Built for Dairy Delivery Businesses</h2>
+  <p style="color:#666;font-size:14px;margin-bottom:36px">From corner dairies to large milk rounds — manage every subscription, route and driver from one clean Odoo interface.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#6c3fc5);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">🗺️</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Delivery Routes</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Create named routes with a driver, delivery days and coverage area so drivers know their territory.</p>
     </div>
-    <div class="flow-item">
-      <div class="flow-num">📋</div>
-      <h4>Add Subscriptions</h4>
-      <p>Customer, product, qty &amp; delivery schedule</p>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">📋</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Customer Subscriptions</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Daily, alternate, weekly or custom schedule. Pause, resume or cancel with one click. Separate delivery address supported.</p>
     </div>
-    <div class="flow-item">
-      <div class="flow-num">📄</div>
-      <h4>Generate Sheet</h4>
-      <p>One click or fully automatic at 5am</p>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">📱</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Mobile Driver App</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">No install, no login. Driver scans QR once and bookmarks the URL. Sees stops in order — taps ✓ Delivered.</p>
     </div>
-    <div class="flow-item">
-      <div class="flow-num">📱</div>
-      <h4>Driver Delivers</h4>
-      <p>Marks each stop done on their phone</p>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#d97706,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">📄</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Daily Delivery Sheets</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Auto-generated from active subscriptions. Confirm, print PDF, or let drivers mark status on their phone.</p>
     </div>
-    <div class="flow-item">
-      <div class="flow-num">🧾</div>
-      <h4>Auto-Invoice</h4>
-      <p>One invoice per customer at month end</p>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#db2777,#ec4899);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">💰</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Customer Wallet</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Prepaid balance per customer. Auto-deducts delivery cost when driver marks done. Full transaction history.</p>
     </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0d9488,#14b8a6);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">🧾</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Auto-Invoice</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">One invoice per customer from all delivered lines. Weekly or monthly billing in seconds — zero manual entry.</p>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#6c3fc5);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">📷</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">QR Code for Driver</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Generate QR from route settings. Driver scans once, bookmarks, uses every day. No link sharing needed.</p>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#059669,#10b981);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">🎄</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Holiday Management</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Define public holidays or customer vacations. Deliveries auto-skipped during sheet generation.</p>
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(108,63,197,.1);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px">🔢</div>
+      <h3 style="font-size:14px;font-weight:800;color:#0f0c29;margin-bottom:6px">Stop Sequencing</h3>
+      <p style="font-size:12px;color:#666;line-height:1.5">Drag to reorder customer stops. Driver app sorts by stop number — shortest path, zero confusion.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div style="background:#f7f5ff;padding:56px 40px">
+<div style="max-width:960px;margin:0 auto">
+  <p style="color:#7c3aed;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Simple Process</p>
+  <h2 style="font-size:30px;font-weight:900;color:#0f0c29;margin-bottom:36px">How It Works — Full Flow</h2>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+
+    <div style="flex:1;min-width:150px;background:#fff;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 20px rgba(108,63,197,.08);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:900;box-shadow:0 6px 20px rgba(124,58,237,.4)">🗺️</div>
+      <div style="font-size:11px;font-weight:900;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Step 1</div>
+      <h4 style="font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px">Create Route</h4>
+      <p style="font-size:11px;color:#888;line-height:1.4">Name, driver, coverage area &amp; days</p>
+    </div>
+
+    <div style="flex:1;min-width:150px;background:#fff;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 20px rgba(108,63,197,.08);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:900;box-shadow:0 6px 20px rgba(124,58,237,.4)">📋</div>
+      <div style="font-size:11px;font-weight:900;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Step 2</div>
+      <h4 style="font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px">Add Subscriptions</h4>
+      <p style="font-size:11px;color:#888;line-height:1.4">Customer, product, qty &amp; schedule</p>
+    </div>
+
+    <div style="flex:1;min-width:150px;background:#fff;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 20px rgba(108,63,197,.08);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:900;box-shadow:0 6px 20px rgba(124,58,237,.4)">📄</div>
+      <div style="font-size:11px;font-weight:900;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Step 3</div>
+      <h4 style="font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px">Generate Sheet</h4>
+      <p style="font-size:11px;color:#888;line-height:1.4">One click or automatic at 5am</p>
+    </div>
+
+    <div style="flex:1;min-width:150px;background:#fff;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 20px rgba(108,63,197,.08);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:900;box-shadow:0 6px 20px rgba(124,58,237,.4)">📱</div>
+      <div style="font-size:11px;font-weight:900;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Step 4</div>
+      <h4 style="font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px">Driver Delivers</h4>
+      <p style="font-size:11px;color:#888;line-height:1.4">Marks done on phone app</p>
+    </div>
+
+    <div style="flex:1;min-width:150px;background:#fff;border-radius:16px;padding:24px;text-align:center;box-shadow:0 4px 20px rgba(108,63,197,.08);border:1px solid rgba(108,63,197,.1)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-weight:900;box-shadow:0 6px 20px rgba(124,58,237,.4)">🧾</div>
+      <div style="font-size:11px;font-weight:900;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Step 5</div>
+      <h4 style="font-size:13px;font-weight:800;color:#0f0c29;margin-bottom:4px">Auto-Invoice</h4>
+      <p style="font-size:11px;color:#888;line-height:1.4">One invoice per customer</p>
+    </div>
+
   </div>
 </div>
 </div>
 
-<!-- ════ DRIVER APP ════ -->
-<div class="section-dark">
-<div class="inner">
-  <div class="mockup-section">
+<!-- SCREENSHOTS -->
+<div style="padding:56px 40px;max-width:960px;margin:0 auto">
+  <p style="color:#7c3aed;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Live Screenshots</p>
+  <h2 style="font-size:30px;font-weight:900;color:#0f0c29;margin-bottom:36px">See It In Action</h2>
 
-    <!-- Phone -->
-    <div class="phone-outer">
-      <div class="phone">
-        <div class="phone-screen">
-          <div class="ph-bar">
-            <div class="ph-t">🥛 North Zone</div>
-            <div class="ph-s">👤 Ravi Kumar &nbsp;·&nbsp; 📅 Today</div>
-            <div class="ph-area">📍 Sector 15–17, Model Town</div>
-          </div>
-          <div class="ph-prog">
-            <div class="ph-prog-top"><span>Progress</span><span>2/4 Done</span></div>
-            <div class="ph-bar-bg"><div class="ph-bar-fill" style="width:50%"></div></div>
-          </div>
-          <div class="ph-card ph-card-border-g">
-            <div class="ph-card-top">
-              <div class="ph-stop">1</div>
-              <div><div class="ph-name">Priya Sharma</div><div class="ph-addr">📍 12 Gandhi Marg, Sec-15</div></div>
-            </div>
-            <div class="ph-prod">📦 Full Cream 1L × 2 &nbsp;·&nbsp; <strong>₹50</strong></div>
-            <div class="ph-done">✓ Delivered</div>
-          </div>
-          <div class="ph-card ph-card-border-p">
-            <div class="ph-card-top">
-              <div class="ph-stop">2</div>
-              <div><div class="ph-name">Amit Verma</div><div class="ph-addr">📍 45 Park Ave, Sec-16</div></div>
-            </div>
-            <div class="ph-prod">📦 Skimmed 500ml × 1 &nbsp;·&nbsp; <strong>₹22</strong></div>
-            <div class="ph-btns">
-              <div class="phb-d">✓ Delivered</div>
-              <div class="phb-s">Skip</div>
-            </div>
-          </div>
-          <div class="ph-card ph-card-border-p">
-            <div class="ph-card-top">
-              <div class="ph-stop">3</div>
-              <div><div class="ph-name">Meena Joshi</div><div class="ph-addr">📍 8 Lake View, Sec-17</div></div>
-            </div>
-            <div class="ph-prod">📦 Toned Milk 1L × 3 &nbsp;·&nbsp; <strong>₹60</strong></div>
-            <div class="ph-btns">
-              <div class="phb-d">✓ Delivered</div>
-              <div class="phb-s">Skip</div>
-            </div>
-          </div>
-        </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen6_routes_list.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">🗺️ Delivery Routes List</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Mon–Sat day toggles, driver assignment, active subs count</div>
       </div>
     </div>
 
-    <!-- Points -->
-    <div class="mockup-points">
-      <div class="eyebrow eyebrow-white">Mobile Driver App</div>
-      <h2 class="white" style="margin-bottom:24px">No App Install.<br/>No Login Required.</h2>
-      <div class="mp-item">
-        <div class="mp-dot">📷</div>
-        <div>
-          <h4>Scan QR Code Once</h4>
-          <p>Admin generates QR from route settings. Driver scans with phone camera and bookmarks — permanent link, works every day.</p>
-        </div>
-      </div>
-      <div class="mp-item">
-        <div class="mp-dot">🗺️</div>
-        <div>
-          <h4>Stops in Correct Order</h4>
-          <p>Sorted by stop sequence number. Coverage area shown in header. Full delivery address on every card — no guessing.</p>
-        </div>
-      </div>
-      <div class="mp-item">
-        <div class="mp-dot">✅</div>
-        <div>
-          <h4>One Tap Per Customer</h4>
-          <p>Delivered · Skip · Absent. Progress bar updates live. Undo if needed. Wallet auto-deducts on delivery.</p>
-        </div>
-      </div>
-      <div class="mp-item">
-        <div class="mp-dot">🎉</div>
-        <div>
-          <h4>Backend Updates Instantly</h4>
-          <p>Manager sees live delivery progress. Invoices generated from confirmed deliveries automatically.</p>
-        </div>
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen8_driver_portal.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">📱 Driver Portal Section</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">QR code, WhatsApp send, coverage area field</div>
       </div>
     </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen1_sheets_list.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">📄 Delivery Sheets List</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Total, delivered, skipped counts — Done badge in green</div>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen2_sheet_form.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">✅ Sheet Detail Form</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">All deliveries marked Delivered, status badges per line</div>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen3_subscriptions.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">📋 Subscriptions List</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Customer, product, route, driver, start date and status</div>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen5_wallet.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">💰 Customer Wallet</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Balance, deposits in green, auto-deductions in red</div>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen4_subscription_form.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">📝 Subscription Form</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Pause / Cancel buttons, delivery tracking, status bar</div>
+      </div>
+    </div>
+
+    <div style="border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);border:1px solid #ede9fe">
+      <img src="screen9_holidays.png" style="width:100%;display:block"/>
+      <div style="padding:12px 16px;background:#fff">
+        <div style="font-size:13px;font-weight:800;color:#0f0c29">🎄 Holiday Management</div>
+        <div style="font-size:11px;color:#888;margin-top:3px">Global / per route / per customer holiday skip</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SETUP STEPS -->
+<div style="background:linear-gradient(135deg,#0f0c29,#1a1a3e);padding:56px 40px">
+<div style="max-width:960px;margin:0 auto">
+  <p style="color:#a78bfa;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Quick Setup</p>
+  <h2 style="font-size:30px;font-weight:900;color:#fff;margin-bottom:36px">Up and Running in Minutes</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">1</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Install the Module</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Apps → Search "Milk Delivery" → Install. New menu appears instantly.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">2</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Create Delivery Routes</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Add route name, driver, active days and coverage area. Generate driver QR code.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">3</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Add Subscriptions</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Customer, product, qty, price, route and stop number. Set custom delivery days if needed.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">4</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Generate Daily Sheets</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Manual: Operations → Generate Today's Sheets. Auto: Enable cron at 5am — hands free.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">5</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Driver Marks Deliveries</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Opens personal URL on phone → sees stops → taps ✓ Delivered after each door.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px">
+      <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:14px">6</div>
+      <h3 style="font-size:14px;font-weight:800;color:#fff;margin-bottom:8px">Invoice at Month End</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6">Operations → Create Invoices → set dates → one invoice per customer, auto-created.</p>
+    </div>
+
   </div>
 </div>
 </div>
 
-<!-- ════ SCREENSHOTS ════ -->
-<div class="section">
-  <div class="eyebrow">Live Screenshots</div>
-  <h2>See It In Action</h2>
-  <p class="lead">Real screenshots from a live Odoo 19 instance.</p>
+<!-- WHAT'S INCLUDED -->
+<div style="background:#f7f5ff;padding:56px 40px">
+<div style="max-width:960px;margin:0 auto">
+  <p style="color:#7c3aed;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:8px">Full Feature List</p>
+  <h2 style="font-size:30px;font-weight:900;color:#0f0c29;margin-bottom:32px">Everything Included — No Add-ons</h2>
 
-  <div class="ss-grid">
-    <div class="ss-card">
-      <img src="screen6_routes_list.png" alt="Delivery Routes List"/>
-      <div class="ss-caption">
-        <div class="ss-icon">🗺️</div>
-        <div><h4>Delivery Routes</h4><p>Mon–Sat day toggles, driver assignment, active subscription count</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen8_driver_portal.png" alt="Driver Portal"/>
-      <div class="ss-caption">
-        <div class="ss-icon">📱</div>
-        <div><h4>Driver Portal Section</h4><p>Generate QR code, WhatsApp send, coverage area field</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen1_sheets_list.png" alt="Delivery Sheets"/>
-      <div class="ss-caption">
-        <div class="ss-icon">📄</div>
-        <div><h4>Delivery Sheets List</h4><p>Total, delivered, skipped counts — Done status badge in green</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen2_sheet_form.png" alt="Sheet Form"/>
-      <div class="ss-caption">
-        <div class="ss-icon">✅</div>
-        <div><h4>Sheet Detail Form</h4><p>All deliveries marked — inline editing, status badges per line</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen3_subscriptions.png" alt="Subscriptions"/>
-      <div class="ss-caption">
-        <div class="ss-icon">📋</div>
-        <div><h4>Subscriptions List</h4><p>Customer, product, route, driver, start date and active status</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen5_wallet.png" alt="Customer Wallet"/>
-      <div class="ss-caption">
-        <div class="ss-icon">💰</div>
-        <div><h4>Customer Wallet</h4><p>Balance, deposits in green, auto-deductions per delivery in red</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen4_subscription_form.png" alt="Subscription Form"/>
-      <div class="ss-caption">
-        <div class="ss-icon">📝</div>
-        <div><h4>Subscription Form</h4><p>Pause / Cancel buttons, delivery tracking stat button, status bar</p></div>
-      </div>
-    </div>
-    <div class="ss-card">
-      <img src="screen9_holidays.png" alt="Holidays"/>
-      <div class="ss-caption">
-        <div class="ss-icon">🎄</div>
-        <div><h4>Holiday Management</h4><p>Global / per route / per customer — deliveries auto-skip on these dates</p></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════ SETUP STEPS ════ -->
-<div class="section-dark">
-<div class="inner">
-  <div class="eyebrow eyebrow-white">Quick Setup</div>
-  <h2 class="white" style="margin-bottom:40px">Up and Running in 7 Steps</h2>
-  <div class="steps-grid">
-    <div class="step-card" data-step="1">
-      <div class="step-num">1</div>
-      <h3>Install the Module</h3>
-      <p>Apps → Search "Milk Delivery" → Install. A new top menu appears instantly.</p>
-    </div>
-    <div class="step-card" data-step="2">
-      <div class="step-num">2</div>
-      <h3>Create Delivery Routes</h3>
-      <ul><li>Route name, driver, delivery days</li><li>Coverage area description</li><li>Generate driver QR code</li></ul>
-    </div>
-    <div class="step-card" data-step="3">
-      <div class="step-num">3</div>
-      <h3>Add Subscriptions</h3>
-      <ul><li>Customer, product, qty, price</li><li>Assign route &amp; stop number</li><li>Set custom delivery days if needed</li></ul>
-    </div>
-    <div class="step-card" data-step="4">
-      <div class="step-num">4</div>
-      <h3>Generate Daily Sheets</h3>
-      <p>Manual: Operations → Generate Today's Sheets<br/>Automatic: Enable cron at 5am</p>
-    </div>
-    <div class="step-card" data-step="5">
-      <div class="step-num">5</div>
-      <h3>Driver Marks Deliveries</h3>
-      <p>Opens personal URL on phone → sees stops → taps ✓ Delivered after each door.</p>
-    </div>
-    <div class="step-card" data-step="6">
-      <div class="step-num">6</div>
-      <h3>Invoice at Month End</h3>
-      <p>Operations → Create Invoices → set dates → one invoice per customer generated automatically.</p>
-    </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Delivery Routes with driver &amp; coverage area</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Customer Subscriptions (daily/weekly/custom)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Daily Delivery Sheets (auto + manual)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">PDF Delivery Sheet per route (printable)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Mobile Driver App (no install, no login)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">QR Code generator for driver onboarding</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">WhatsApp Web link to share driver URL</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Route Stop Sequencing (drag &amp; drop)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Customer Wallet (prepaid balance)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Auto wallet deduction on delivery</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Holiday &amp; Vacation Management</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Auto-Schedule Cron (5am daily)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Calendar View (color-coded by route)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Auto-Invoice from delivered lines</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Customer Portal (My Account)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:12px 16px;border:1px solid #ede9fe"><div style="width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">✓</div><span style="font-size:13px;font-weight:600;color:#0f0c29">Separate delivery address per subscription</span></div>
   </div>
 </div>
 </div>
 
-<!-- ════ WHAT'S INCLUDED ════ -->
-<div class="section-grey">
-<div class="inner">
-  <div class="eyebrow">Full Feature List</div>
-  <h2>Everything Included — No Add-ons</h2>
-  <p class="lead" style="margin-bottom:32px">One price, full source code, lifetime updates for this version.</p>
-  <div class="inc-grid">
-    <div class="inc-item"><div class="inc-check">✓</div><span>Delivery Routes with driver &amp; area</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Customer Subscriptions (daily/weekly/custom)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Daily Delivery Sheets (auto + manual)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>PDF Delivery Sheet per route (printable)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Mobile Driver App (no install, no login)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>QR Code generator for driver onboarding</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>WhatsApp Web link to share driver URL</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Route Stop Sequencing (drag &amp; drop)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Customer Wallet (prepaid balance)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Auto wallet deduction on delivery</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Holiday &amp; Vacation Management</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Auto-Schedule Cron (5am daily)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Calendar View (color-coded by route)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Auto-Invoice from delivered lines</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Customer Portal (My Account)</span></div>
-    <div class="inc-item"><div class="inc-check">✓</div><span>Separate delivery address per subscription</span></div>
-  </div>
-</div>
-</div>
-
-<!-- ════ PRICING ════ -->
-<div class="section" style="text-align:center">
-  <div class="eyebrow">Pricing</div>
-  <h2 style="margin-bottom:40px">Simple, One-Time Price</h2>
-  <div class="price-wrap">
-    <div class="price-tag"><sup>$</sup>30</div>
-    <div class="price-period">One-time · Full source code</div>
-    <ul class="price-list">
-      <li>Odoo 19 Community &amp; Enterprise</li>
-      <li>Mobile Driver App included</li>
-      <li>Customer Portal included</li>
-      <li>Full source code — no encryption</li>
-      <li>Free updates for Odoo 19</li>
-      <li>Email support included</li>
-    </ul>
-    <a class="price-btn" href="mailto:magentodeveloper1993@gmail.com">Get Support →</a>
-    <div class="price-note">Only module on Odoo App Store solving milk delivery</div>
-  </div>
-</div>
-
-<!-- ════ CTA ════ -->
-<div class="cta">
-  <h2>Stop Managing Deliveries on Paper.</h2>
-  <p>Give your drivers a mobile app, your customers a portal, and your team auto-invoicing — for $30.</p>
-  <a class="cta-btn" href="mailto:magentodeveloper1993@gmail.com">Contact for Support</a>
-  <div class="cta-sub">
-    by <a href="https://www.technicalrajni.com">Technical Rajni</a>
+<!-- CTA -->
+<div style="background:linear-gradient(135deg,#0f0c29,#302b63);padding:64px 40px;text-align:center">
+  <h2 style="font-size:32px;font-weight:900;color:#fff;margin-bottom:12px">Stop Managing Deliveries on Paper.</h2>
+  <p style="color:rgba(255,255,255,.65);font-size:15px;max-width:500px;margin:0 auto 32px">Give your drivers a mobile app, your customers a portal, and your team auto-invoicing — for $30.</p>
+  <a href="mailto:magentodeveloper1993@gmail.com" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;padding:16px 40px;border-radius:14px;font-weight:800;font-size:15px;text-decoration:none">Contact for Support →</a>
+  <div style="margin-top:20px;font-size:12px;color:rgba(255,255,255,.4)">
+    by <a href="https://www.technicalrajni.com" style="color:#a78bfa;text-decoration:none">Technical Rajni</a>
     &nbsp;·&nbsp; magentodeveloper1993@gmail.com
   </div>
 </div>
