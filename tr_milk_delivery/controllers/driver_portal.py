@@ -1,5 +1,8 @@
+import logging
 from odoo import fields, http
 from odoo.http import request
+
+_logger = logging.getLogger(__name__)
 
 CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -56,7 +59,8 @@ def _html(body, title="Driver App"):
 
 
 def _action_form(token, delivery_id, action, label, css_class):
-    return (f'<form action="/milk/driver/{token}/action" method="POST" style="display:contents">'
+    url = f'/milk/driver/{token}/action'
+    return (f'<form action="{url}" method="POST" style="display:contents">'
             f'<input type="hidden" name="delivery_id" value="{delivery_id}"/>'
             f'<input type="hidden" name="action" value="{action}"/>'
             f'<button type="submit" class="{css_class}">{label}</button>'
@@ -76,10 +80,16 @@ class MilkDriverPortal(http.Controller):
                                          headers=[('Content-Type', 'text/html; charset=utf-8')])
 
         today = fields.Date.today()
+        # Try today's sheet first, fall back to most recent non-done sheet
         sheet = request.env['tr.milk.delivery.sheet'].sudo().search([
             ('route_id', '=', route.id),
             ('delivery_date', '=', today),
         ], limit=1)
+        if not sheet:
+            sheet = request.env['tr.milk.delivery.sheet'].sudo().search([
+                ('route_id', '=', route.id),
+                ('state', '!=', 'done'),
+            ], order='delivery_date desc', limit=1)
 
         deliveries = sheet.delivery_ids.sorted('sequence') if sheet else \
             request.env['tr.milk.delivery'].sudo()
@@ -155,8 +165,9 @@ class MilkDriverPortal(http.Controller):
                     + '</div>'
                 )
             else:
+                undo_url = f'/milk/driver/{token}/action'
                 card += (
-                    f'<form action="/milk/driver/{token}/action" method="POST">'
+                    f'<form action="{undo_url}" method="POST">'
                     f'<input type="hidden" name="delivery_id" value="{d.id}"/>'
                     f'<input type="hidden" name="action" value="reset"/>'
                     f'<button type="submit" class="btn-undo">&#8617; Undo</button>'
@@ -179,19 +190,40 @@ class MilkDriverPortal(http.Controller):
         route = request.env['tr.milk.route'].sudo().search(
             [('access_token', '=', token)], limit=1)
         if not route or not delivery_id:
+            _logger.warning('Driver action: invalid token or missing delivery_id')
             return request.redirect(f'/milk/driver/{token}')
 
-        delivery = request.env['tr.milk.delivery'].sudo().browse(int(delivery_id))
-        if delivery.route_id.id != route.id:
+        state_map = {
+            'deliver': 'delivered',
+            'skip': 'skipped',
+            'absent': 'absent',
+            'reset': 'pending',
+        }
+        if action not in state_map:
             return request.redirect(f'/milk/driver/{token}')
 
-        if action == 'deliver':
-            delivery.action_deliver()
-        elif action == 'skip':
-            delivery.action_skip()
-        elif action == 'absent':
-            delivery.action_absent()
-        elif action == 'reset':
-            delivery.action_reset()
+        try:
+            delivery = request.env['tr.milk.delivery'].sudo().browse(int(delivery_id))
+            if not delivery.exists():
+                _logger.warning('Driver action: delivery %s not found', delivery_id)
+                return request.redirect(f'/milk/driver/{token}')
+
+            new_state = state_map[action]
+            delivery.write({'state': new_state})
+            _logger.info('Driver portal: delivery %s → %s', delivery_id, new_state)
+
+            # Wallet deduction and WhatsApp on deliver only
+            if action == 'deliver':
+                try:
+                    delivery._deduct_wallet()
+                except Exception as e:
+                    _logger.warning('Wallet deduction failed: %s', e)
+                try:
+                    delivery._send_whatsapp_notification()
+                except Exception as e:
+                    _logger.warning('WhatsApp notification failed: %s', e)
+
+        except Exception as e:
+            _logger.error('Driver action error: %s', e)
 
         return request.redirect(f'/milk/driver/{token}')
