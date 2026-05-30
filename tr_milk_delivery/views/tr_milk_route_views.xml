@@ -76,8 +76,12 @@
                                     invisible="not access_token"/>
                         </div>
                     </group>
-                    <group>
-                        <field name="note" placeholder="Internal notes about this route..."/>
+                    <group string="Coverage Area">
+                        <field name="area_description" nolabel="1"
+                               placeholder="e.g. Sector 15, 16, 17 — Model Town — Streets A to F&#10;Describe all localities this driver covers so new customers can be assigned correctly."/>
+                    </group>
+                    <group string="Internal Notes">
+                        <field name="note" nolabel="1" placeholder="Internal notes..."/>
                     </group>
                 </sheet>
             </form>

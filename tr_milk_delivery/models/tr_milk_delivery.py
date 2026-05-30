@@ -25,6 +25,7 @@ class MilkDelivery(models.Model):
     route_id = fields.Many2one('tr.milk.route', string='Route', index=True)
     driver_id = fields.Many2one('res.users', string='Driver')
     sequence = fields.Integer(string='Stop #', default=10)
+    delivery_address = fields.Char(string='Delivery Address')
 
     delivery_date = fields.Date(
         string='Date', required=True, default=fields.Date.today)
@@ -60,6 +61,7 @@ class MilkDelivery(models.Model):
             self.driver_id = sub.driver_id
             self.qty = sub.qty
             self.price_unit = sub.price_unit
+            self.delivery_address = sub.delivery_full
 
     def action_deliver(self):
         for delivery in self:
@@ -142,6 +144,7 @@ class MilkDelivery(models.Model):
                 'route_id': sub.route_id.id,
                 'driver_id': sub.driver_id.id,
                 'sequence': sub.sequence,
+                'delivery_address': sub.delivery_full,
                 'delivery_date': delivery_date,
                 'qty': sub.qty,
                 'price_unit': sub.price_unit,

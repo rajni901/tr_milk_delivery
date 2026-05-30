@@ -10,6 +10,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dh{background:linear-gradient(135deg,#1a1a5e 0%,#6c3fc5 100%);padding:16px 20px;position:sticky;top:0;z-index:99;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .dh-title{color:#fff;font-size:20px;font-weight:900}
 .dh-sub{color:rgba(255,255,255,.8);font-size:12px;margin-top:4px}
+.dh-area{color:rgba(255,255,255,.7);font-size:11px;margin-top:6px;background:rgba(255,255,255,.1);border-radius:6px;padding:5px 10px;display:inline-block}
 .prog-wrap{background:#fff;padding:14px 16px;border-bottom:1px solid #e8eaed}
 .prog-label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}
 .prog-count{color:#28a745;font-weight:800}
@@ -98,11 +99,16 @@ class MilkDriverPortal(http.Controller):
         delivered = len(deliveries.filtered(lambda d: d.state == 'delivered'))
         pct = int(delivered * 100 / total) if total else 0
 
+        display_date = sheet.delivery_date if sheet else today
+        area_html = (f'<div class="dh-area">&#128205; {route.area_description}</div>'
+                     if route.area_description else '')
+
         # Header
         parts = [
             f'<div class="dh">'
             f'<div class="dh-title">&#127843; {route.name}</div>'
-            f'<div class="dh-sub">&#128100; {route.driver_id.name} &nbsp;&#183;&nbsp; &#128197; {today}</div>'
+            f'<div class="dh-sub">&#128100; {route.driver_id.name} &nbsp;&#183;&nbsp; &#128197; {display_date}</div>'
+            f'{area_html}'
             f'</div>',
 
             f'<div class="prog-wrap">'
@@ -138,14 +144,16 @@ class MilkDriverPortal(http.Controller):
                 'absent': 'Absent',
             }
             note = d.subscription_id.note if d.subscription_id else ''
-            addr = d.partner_id.street or ''
+            addr = d.delivery_address or d.partner_id.street or ''
             card = (
                 f'<div class="card card-{state}">'
                 f'  <div class="card-top">'
                 f'    <div class="stop-badge">{i+1}</div>'
                 f'    <div style="flex:1">'
                 f'      <div class="cust-name">{d.partner_id.name}</div>'
-                f'      <div class="cust-addr">{addr}</div>'
+                f'      <div class="cust-addr">&#128205; {addr}</div>' if addr else
+                f'      <div class="cust-name">{d.partner_id.name}</div>'
+                f'      <div class="cust-addr"></div>'
                 f'    </div>'
                 f'    <span class="status-pill sp-{state}">{state_labels.get(state, state)}</span>'
                 f'  </div>'

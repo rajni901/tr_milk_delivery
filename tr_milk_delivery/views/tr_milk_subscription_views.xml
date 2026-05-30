@@ -68,6 +68,14 @@
                             <field name="end_date"/>
                         </group>
                     </group>
+                    <group>
+                        <group string="Delivery Address">
+                            <field name="delivery_partner_id"
+                                   placeholder="Leave empty to use customer address"
+                                   options="{'no_create': True}"/>
+                            <field name="delivery_full" readonly="1" string="Full Address"/>
+                        </group>
+                    </group>
                     <group string="Delivery Days">
                         <field name="use_custom_days" widget="boolean_toggle"/>
                         <group invisible="not use_custom_days" col="7">

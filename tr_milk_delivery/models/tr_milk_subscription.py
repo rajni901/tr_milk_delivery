@@ -27,6 +27,19 @@ class MilkSubscription(models.Model):
     driver_id = fields.Many2one(
         related='route_id.driver_id', string='Driver', store=True)
 
+    delivery_partner_id = fields.Many2one(
+        'res.partner', string='Delivery Address',
+        help='Where to deliver. Leave empty to use the customer address. '
+             'Useful when customer wants delivery at a different location.')
+    delivery_street = fields.Char(
+        string='Street', compute='_compute_delivery_address', store=True)
+    delivery_city = fields.Char(
+        string='City', compute='_compute_delivery_address', store=True)
+    delivery_zip = fields.Char(
+        string='ZIP', compute='_compute_delivery_address', store=True)
+    delivery_full = fields.Char(
+        string='Full Address', compute='_compute_delivery_address', store=True)
+
     state = fields.Selection([
         ('active', 'Active'),
         ('paused', 'Paused'),
@@ -52,6 +65,16 @@ class MilkSubscription(models.Model):
         'tr.milk.delivery', 'subscription_id', string='Deliveries')
     delivery_count = fields.Integer(
         compute='_compute_delivery_count', string='Deliveries')
+
+    @api.depends('delivery_partner_id', 'partner_id')
+    def _compute_delivery_address(self):
+        for sub in self:
+            addr = sub.delivery_partner_id or sub.partner_id
+            sub.delivery_street = addr.street or ''
+            sub.delivery_city = addr.city or ''
+            sub.delivery_zip = addr.zip or ''
+            parts = filter(None, [addr.street, addr.city, addr.zip])
+            sub.delivery_full = ', '.join(parts)
 
     @api.depends('partner_id', 'product_id')
     def _compute_name(self):

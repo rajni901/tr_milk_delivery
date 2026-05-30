@@ -12,7 +12,11 @@ class MilkRoute(models.Model):
     name = fields.Char(string='Route Name', required=True)
     driver_id = fields.Many2one('res.users', string='Driver', required=True)
     active = fields.Boolean(default=True)
-    note = fields.Text(string='Notes')
+    area_description = fields.Text(
+        string='Coverage Area',
+        help='Describe the streets, sectors or localities this route covers. '
+             'Shown to the driver on their portal.')
+    note = fields.Text(string='Internal Notes')
     access_token = fields.Char(
         string='Driver Portal Token', copy=False, readonly=True,
         help='Unique token for the driver portal URL. Share /milk/driver/<token> with the driver.')
