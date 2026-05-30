@@ -1,6 +1,6 @@
 {
     'name': 'Milk Delivery Management',
-    'version': '19.0.3.0.0',
+    'version': '19.0.4.0.0',
     'category': 'Inventory/Delivery',
     'summary': 'Complete milk & dairy subscription delivery — routes, stop sequence, wallet, auto-schedule, holidays, WhatsApp.',
     'description': """
@@ -38,6 +38,7 @@ Features:
         'views/tr_milk_holiday_views.xml',
         'wizard/generate_delivery_sheet_views.xml',
         'wizard/create_invoices_views.xml',
+        'wizard/driver_qr_wizard_views.xml',
         'report/delivery_sheet_report.xml',
         'report/delivery_sheet_template.xml',
         'views/menu.xml',

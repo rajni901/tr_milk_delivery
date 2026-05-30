@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_driver_qr_wizard_form" model="ir.ui.view">
+        <field name="name">tr.milk.route.qr.wizard.form</field>
+        <field name="model">tr.milk.route.qr.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Driver Portal QR Code">
+                <sheet>
+                    <div style="text-align:center; padding:20px;">
+                        <h2 style="color:#1a1a5e; margin-bottom:4px;">
+                            <field name="route_id" readonly="1" nolabel="1"/> — Driver App
+                        </h2>
+                        <p style="color:#666; font-size:13px; margin-bottom:20px;">
+                            Show or print this QR code. Driver scans it once with their phone camera — no link sharing needed.
+                        </p>
+                        <field name="qr_image" widget="image"
+                               style="max-width:240px; border:8px solid #1a1a5e; border-radius:12px;"/>
+                        <div style="margin-top:16px; background:#f8f9fa; border-radius:8px; padding:10px; word-break:break-all; font-size:11px; color:#555;">
+                            <field name="portal_url" readonly="1" nolabel="1"/>
+                        </div>
+                        <p style="color:#888; font-size:12px; margin-top:12px;">
+                            The driver can also bookmark this link — it works every day automatically.
+                        </p>
+                    </div>
+                </sheet>
+                <footer>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

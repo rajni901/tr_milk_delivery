@@ -16,3 +16,4 @@ access_milk_wallet_transaction_manager,tr.milk.wallet.transaction manager,model_
 access_milk_wallet_deposit,tr.milk.wallet.deposit,model_tr_milk_wallet_deposit,base.group_user,1,1,1,1
 access_milk_holiday_user,tr.milk.holiday user,model_tr_milk_holiday,base.group_user,1,0,0,0
 access_milk_holiday_manager,tr.milk.holiday manager,model_tr_milk_holiday,base.group_system,1,1,1,1
+access_milk_route_qr_wizard,tr.milk.route.qr.wizard,model_tr_milk_route_qr_wizard,base.group_user,1,1,1,1

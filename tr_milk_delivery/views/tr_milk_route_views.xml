@@ -62,11 +62,19 @@
                     </group>
                     <group string="Driver Portal">
                         <field name="access_token" readonly="1"/>
-                        <button name="action_generate_token" type="object"
-                                string="🔑 Generate Driver Link" class="btn btn-sm btn-outline-primary"/>
-                        <button name="action_view_driver_portal" type="object"
-                                string="📱 Open Driver App" class="btn btn-sm btn-success"
-                                invisible="not access_token"/>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+                            <button name="action_generate_token" type="object"
+                                    string="🔑 Generate Link" class="btn btn-sm btn-outline-primary"/>
+                            <button name="action_view_driver_portal" type="object"
+                                    string="📱 Open App" class="btn btn-sm btn-outline-secondary"
+                                    invisible="not access_token"/>
+                            <button name="action_get_qr_code" type="object"
+                                    string="📷 Show QR Code" class="btn btn-sm btn-outline-info"
+                                    invisible="not access_token"/>
+                            <button name="action_send_driver_whatsapp" type="object"
+                                    string="💬 Send to Driver (WhatsApp)" class="btn btn-sm btn-success"
+                                    invisible="not access_token"/>
+                        </div>
                     </group>
                     <group>
                         <field name="note" placeholder="Internal notes about this route..."/>
