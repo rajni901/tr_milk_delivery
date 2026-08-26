@@ -4,7 +4,7 @@
     'category': 'Inventory/Delivery',
     'summary': 'Complete milk & dairy subscription delivery — routes, stop sequence, wallet, auto-schedule, holidays, WhatsApp.',
     'description': """
-Milk Delivery Management — by Technical Rajni
+Milk Delivery Management — by Vayu Sharma
 =============================================
 Full dairy delivery solution for milk rounds, dairy farms, and subscription delivery businesses.
 
@@ -22,8 +22,8 @@ Features:
 - Printable PDF delivery sheet per route for drivers
 - WhatsApp Web link to send driver portal link to driver phone (no extra module needed)
     """,
-    'author': 'Technical Rajni',
-    'website': 'https://www.technicalrajni.com',
+    'author': 'Vayu Sharma',
+    'website': '',
     'license': 'OPL-1',
     'depends': ['sale_management', 'account', 'stock', 'mail', 'website', 'portal'],
     'data': [
